@@ -1,0 +1,144 @@
+--- Exercicio 2
+
+-- -----------------------------------------------------
+-- Schema pedidos
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS pedidos AUTHORIZATION sa ;
+USE `pedidos` ;
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`comprador`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`comprador` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `sobrenome` VARCHAR(45) NULL,
+  `idade` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`pedido`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`pedido` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `comprador` BIGINT NULL,
+  `data` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT fk_pedido_comprador
+    FOREIGN KEY (comprador)
+    REFERENCES `pedidos`.`comprador` (`id`));
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`estado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`estado` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`cidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`cidade` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NULL,
+  `estado` INT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT fk_cidade_estado
+    FOREIGN KEY (estado)
+    REFERENCES `pedidos`.`estado` (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`endereco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`endereco` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `logradouro` VARCHAR(45) NULL,
+  `cep` VARCHAR(45) NULL,
+  `numero` INT NULL,
+  `cidade` INT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_endereco_cidade`
+    FOREIGN KEY (`cidade`)
+    REFERENCES `pedidos`.`cidade` (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`comprador_endereco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`comprador_endereco` (
+  `comprador` BIGINT NOT NULL,
+  `endereco` INT NOT NULL,
+  PRIMARY KEY (`comprador`, `endereco`),
+  CONSTRAINT `fk_comprador`
+    FOREIGN KEY (`comprador`)
+    REFERENCES `pedidos`.`comprador` (`id`),
+  CONSTRAINT `fk_endereco`
+    FOREIGN KEY (`endereco`)
+    REFERENCES `pedidos`.`endereco` (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`item` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(45) NULL,
+  `valor` DOUBLE NULL,
+  PRIMARY KEY (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `pedidos`.`pedido_item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedidos`.`pedido_item` (
+  `pedido` BIGINT NOT NULL,
+  `item` INT NOT NULL,
+  PRIMARY KEY (`pedido`, `item`),
+  CONSTRAINT `fk_pedido`
+    FOREIGN KEY (`pedido`)
+    REFERENCES `pedidos`.`pedido` (`id`),
+  CONSTRAINT `fk_item`
+    FOREIGN KEY (`item`)
+    REFERENCES `pedidos`.`item` (`id`));
+
+
+---- RESPOSTA 3
+INSERT INTO PEDIDOS.COMPRADOR  (NOME) VALUES ('GUILHERME');
+
+INSERT INTO PEDIDOS.ITEM (DESCRICAO, VALOR) VALUES ('Garrafa', 10.0);
+INSERT INTO PEDIDOS.ITEM (DESCRICAO, VALOR) VALUES ('Lata', 5.0);
+INSERT INTO PEDIDOS.ITEM (DESCRICAO, VALOR) VALUES ('Copo', 2.0);
+INSERT INTO PEDIDOS.ITEM (DESCRICAO, VALOR) VALUES ('Vasilha', 15.0);
+INSERT INTO PEDIDOS.ITEM (DESCRICAO, VALOR) VALUES ('Bag', 20.0);
+
+INSERT INTO PEDIDOS.PEDIDO  (COMPRADOR) VALUES (1);
+
+INSERT INTO PEDIDOS.PEDIDO_ITEM  VALUES (1,1);
+INSERT INTO PEDIDOS.PEDIDO_ITEM  VALUES (1,2);
+INSERT INTO PEDIDOS.PEDIDO_ITEM  VALUES (1,3);
+INSERT INTO PEDIDOS.PEDIDO_ITEM  VALUES (1,4);
+INSERT INTO PEDIDOS.PEDIDO_ITEM  VALUES (1,5);
+
+--- RESPOSTA 4
+SELECT * FROM PEDIDOS.PEDIDO_ITEM  PI
+INNER JOIN PEDIDOS.PEDIDO P
+ON P.ID = PI.PEDIDO
+INNER JOIN PEDIDOS.ITEM I
+ON I.ID = PI.ITEM
+INNER JOIN PEDIDOS.COMPRADOR C
+ON C.ID = P.COMPRADOR
+WHERE PI.PEDIDO = 1;
+
+SELECT P.ID, P.COMPRADOR, C.NOME, I.ID, I.DESCRICAO, I.VALOR 
+FROM PEDIDOS.PEDIDO_ITEM  PI
+INNER JOIN PEDIDOS.PEDIDO P
+ON P.ID = PI.PEDIDO
+INNER JOIN PEDIDOS.ITEM I
+ON I.ID = PI.ITEM
+INNER JOIN PEDIDOS.COMPRADOR C
+ON C.ID = P.COMPRADOR
+WHERE PI.PEDIDO = 1;
