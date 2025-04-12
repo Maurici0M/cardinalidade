@@ -1,7 +1,12 @@
 package com.pedidos.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 public class Endereco {
 
@@ -14,35 +19,7 @@ public class Endereco {
     @ManyToOne
     private Cidade cidade;
 
-    public int getId() {
-        return id;
+    public Endereco() {
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public Cidade getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
-    }
 }

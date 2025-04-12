@@ -1,8 +1,13 @@
 package com.pedidos.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -15,27 +20,7 @@ public class Pedido {
     private Comprador comprador;
     private LocalDateTime data;
 
-    public long getId() {
-        return id;
+    public Pedido() {
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Comprador getComprador() {
-        return comprador;
-    }
-
-    public void setComprador(Comprador comprador) {
-        this.comprador = comprador;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
 }
