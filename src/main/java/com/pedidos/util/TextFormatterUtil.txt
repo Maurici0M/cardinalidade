@@ -1,0 +1,7 @@
+O que esse código faz?
+- Divide a string por espaços (split("\\s+")), garantindo que palavras separadas sejam tratadas individualmente.
+- Transforma a primeira letra de cada palavra em maiúscula (toUpperCase()).
+- Coloca o restante da palavra em minúscula, evitando inconsistências.
+- Garante que nomes compostos fiquem formatados corretamente (ex.: "joão carlos" → "João Carlos").
+
+
