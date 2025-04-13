@@ -4,15 +4,9 @@ import com.pedidos.factory.CompradorFactory;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.validation.CPFValidator;
 import com.pedidos.validation.CompradorValidator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,14 +21,20 @@ class CompradorServiceImplTest {
     @Mock
     private CompradorRepository compradorRepository;
 
-    @Spy
+    //classe precisa ser mocada no BeforeEach manualmente para evitar erros compilação do teste
     private CompradorValidator compradorValidator;
 
-    @Mock
+    @Spy
     private CPFValidator cpfValidator;
 
-    @InjectMocks
+    //classe precisa ser mocada no BeforeEach manualmente para evitar erros compilação do teste
     private CompradorServiceImpl compradorService;
+
+    @BeforeEach
+    void setUp() {
+        compradorValidator = Mockito.spy(new CompradorValidator(cpfValidator)); //adiciona a anotação Spy no compradorValidator e inclui o param do construtor da classe
+        compradorService = new CompradorServiceImpl(compradorRepository, compradorValidator); //moca as instâncias necessarias para o funcionamento do service
+    }
 
     @Nested
     class registerBuyer{
@@ -155,26 +155,6 @@ class CompradorServiceImplTest {
         }
 
         @Test
-        @DisplayName("If the ID search returns a buyer, it should report an error")
-        void buyerWithRegisteredID() {
-            //ARRANGE
-            var buyer = CompradorFactory.buyerWithCompleteData();
-
-            //ACT
-            BDDMockito.given(compradorRepository.findById(buyer.getId())).willReturn(Optional.of(buyer));
-
-            //ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorService.registerBuyer(buyer));
-
-            //garante que HOUVE apenas uma interação do repository com o metodo findById
-            verify(compradorRepository, times(1)).findById(buyer.getId());
-
-            //garante que NÃO HOUVE interação do repository com os seguintes metodos
-            verify(compradorRepository, never()).findByCpf(buyer.getCpf());
-            verify(compradorRepository, never()).save(buyer);
-        }
-
-        @Test
         @DisplayName("If the CPF search returns a buyer, it should report an error")
         void buyerWithCPFAlreadyRegistered() {
             //ARRANGE
@@ -187,7 +167,6 @@ class CompradorServiceImplTest {
             Assertions.assertThrows(ResponseStatusException.class, ()-> compradorService.registerBuyer(buyer));
 
             //garante que HOUVE apenas uma interação do repository com o metodo findById
-            verify(compradorRepository, times(1)).findById(buyer.getId());
             verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
 
             //garante que NÃO HOUVE interação do repository com os seguintes metodos
@@ -204,14 +183,14 @@ class CompradorServiceImplTest {
             BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
 
             //ASSERT
-            Assertions.assertDoesNotThrow(()-> compradorService.registerBuyer(buyer));
+            Assertions.assertThrows(ResponseStatusException.class ,()-> compradorService.registerBuyer(buyer));
 
             //garante que HOUVE apenas uma interação do repository com o metodo findById
             verify(compradorValidator, times(1)).validateAllDataRegistration(buyer);
-            verify(compradorRepository, times(1)).findById(buyer.getId());
             verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
-            verify(compradorRepository, times(1)).save(buyer);
 
+            //garante que o metodo save nao foi invocado durante o teste
+            verify(compradorRepository, never()).save(buyer);
         }
 
     }

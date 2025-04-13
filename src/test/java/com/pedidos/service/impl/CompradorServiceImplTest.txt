@@ -1,0 +1,54 @@
+Quando precisamos fazer testes, e temos uma classe que depende de outras classes para o funcionamento, principalmente utilizando o:
+
+private FINAL ClasseX nomeDaVariavel
+
+Esse FINAL utilizado, impede que haja um construtor default, aquele vazio, que não necessita de argumentos para ser inicializado.
+
+Dessa forma, quando vamos mockar as dependências de classes de validação na de serviço, por exemplo, ocorre diversos erros, visto que, não é necessariamente colocar @Mock ou @InjectMocks para se ter um funcionamento correto das validações.
+
+No nosso caso, para resolver os erros acusados nos testes, foi necessário utilizar uma nova anotação @Spy, que "espiona" o comportamento da classe que tem essa anotação.
+
+Porém, quando usamos o @Spy, ele necessita ter um construtor vazio para conseguir fazer o seu trabalho, e quando temos uma classe X que tem atributos private FINAL, isso não é possível, pois, construtores vazios não são permitidos nestes casos.
+
+A forma que encontramos de resolver isso, após pesquisarmos, foi dessa forma:
+
+-> Mesmo tendo o @ExtendWith(MockitoExtension.class) no início da classe, é necessário instanciar manualmente os elementos necessários para que os testes não falhem:
+
+    @Mock
+    private CompradorRepository compradorRepository;
+
+    //classe precisa ser mocada no BeforeEach manualmente para evitar erros compilação do teste
+    private CompradorValidator compradorValidator;
+
+    @Spy
+    private CPFValidator cpfValidator;
+
+    //classe precisa ser mocada no BeforeEach manualmente para evitar erros compilação do teste
+    private CompradorServiceImpl compradorService;
+
+    @BeforeEach
+    void setUp() {
+        compradorValidator = Mockito.spy(new CompradorValidator(cpfValidator)); //adiciona a anotação Spy no compradorValidator e inclui o param do construtor da classe
+        compradorService = new CompradorServiceImpl(compradorRepository, compradorValidator); //moca as instâncias necessarias para o funcionamento do service
+    }
+
+-> esse setUp, inicializa os mocks ao percorrer cada método validador na classe de testes, ele está manualmente injetando os mocks nas classes que necessitam, e assim, conseguimos testar os métodos de uma forma mais próxima da real.
+
+-> LEMBRA DISSO QUANDO HOUVER MÉTODOS QUE DEPENDEM DE OUTROS MÉTODOS E USAM O PRIVATE FINAL, O COMPORTAMENTO DE AJUSTE DOS TESTES SERÁ BEM SEMELHANTE!
+
+----------------------------------------------------------------------------------------------------
+
+🔍 Por que isso funciona tão bem?
+Porque você:
+
+Mockou o CPFValidator com @Spy, então consegue monitorar/comportar a lógica se quiser.
+
+Criou o spy manualmente do CompradorValidator, passando a dependência dele (cpfValidator), coisa que o Mockito não consegue fazer sozinho com @Spy em campo.
+
+Instanciou a CompradorServiceImpl de forma direta, evitando depender do @InjectMocks, que fica limitado quando as dependências também têm dependências.
+
+Essa abordagem também te dá liberdade pra:
+
+Verificar interações com o validator se quiser (verify(compradorValidator).validateAllDataRegistration(...))
+
+Testar com CPF real ou manipulado (válido, inválido, vazio etc.)

@@ -7,6 +7,8 @@ import com.pedidos.repository.EnderecoRepository;
 import com.pedidos.repository.EstadoRepository;
 import com.pedidos.service.CompradorService;
 import com.pedidos.validation.CompradorValidator;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,11 +33,6 @@ public class CompradorServiceImpl implements CompradorService {
     @Override
     public Comprador registerBuyer(Comprador comprador) {
         compradorValidator.validateAllDataRegistration(comprador);
-
-        buyerRepository.findById(comprador.getId()).ifPresent(buyer -> {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "O comprador já está cadastrado. Somente é permitido um cadastro por ID!");
-        });
 
         buyerRepository.findByCpf(comprador.getCpf()).ifPresent(buyer -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
