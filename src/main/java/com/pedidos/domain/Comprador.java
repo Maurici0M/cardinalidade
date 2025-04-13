@@ -1,12 +1,10 @@
 package com.pedidos.domain;
 
-import com.pedidos.util.DateFormatterUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter

@@ -1,6 +1,5 @@
 package com.pedidos.domain;
 
-import com.pedidos.dto.BuyerAddressDataDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,10 +25,6 @@ public class Cidade {
     public Cidade(String nome, Estado estado) {
         this.nome = nome;
         this.estado = estado;
-    }
-
-    public Cidade(String cidade) {
-        this.nome = cidade;
     }
 
 }
