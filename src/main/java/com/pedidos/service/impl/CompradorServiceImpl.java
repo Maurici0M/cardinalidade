@@ -1,14 +1,9 @@
 package com.pedidos.service.impl;
 
 import com.pedidos.domain.Comprador;
-import com.pedidos.repository.CidadeRepository;
 import com.pedidos.repository.CompradorRepository;
-import com.pedidos.repository.EnderecoRepository;
-import com.pedidos.repository.EstadoRepository;
 import com.pedidos.service.CompradorService;
 import com.pedidos.validation.CompradorValidator;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
