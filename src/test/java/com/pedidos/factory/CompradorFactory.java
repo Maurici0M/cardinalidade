@@ -30,13 +30,9 @@ public class CompradorFactory {
         );
     }
 
-    public static Comprador buyerInsertAderessData(String uf, String bairro, String logradouro, String cep){
+    public static Comprador buyerInsertAderessData(String cep, String logradouro, String bairro, String numero, String complemento, String uf){
         var endereco = EnderecoFactory.enderecoInserirDados(
-                uf,
-                bairro,
-                logradouro,
-                cep
-        );
+                cep, logradouro, bairro, numero, complemento, uf);
 
         return new Comprador(
                 "Ada",
@@ -46,6 +42,5 @@ public class CompradorFactory {
                 endereco
         );
     }
-
 
 }

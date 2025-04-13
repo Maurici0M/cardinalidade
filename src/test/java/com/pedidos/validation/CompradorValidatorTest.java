@@ -44,10 +44,10 @@ class CompradorValidatorTest {
         }
 
         @Test
-        @DisplayName("zip code field is empty or null, and should display an error")
+        @DisplayName("Zip code field is empty or null, and should display an error")
         void buyerWithoutZipCode() {
             //ARRANGE
-            var buyer = CompradorFactory.buyerInsertAderessData("SP", "Sé", "Praça da Sé", "");
+            var buyer = CompradorFactory.buyerInsertAderessData("", "Praça da Sé", "Sé", "4895", "CS 1", "SP");
 
             //ACT + ASSERT
             Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
@@ -55,17 +55,29 @@ class CompradorValidatorTest {
             verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
         }
 
-        /* @Test
-        @DisplayName("If the zip code does not have 8 numbers, it should display an error.")
-        void BuyerWithInvalidCEP() {
+        @Test
+        @DisplayName("If the address number field is empty or null, an error should be reported.")
+        void BuyerWithoutAddressNumber() {
             //ARRANGE
-            var buyer = CompradorFactory.buyerInsertAderessData("SP", "Sé", "Praça da Sé", "123");
+            var buyer = CompradorFactory.buyerInsertAderessData("01001-000", "Praça da Sé", "Sé", "", "CS 1", "SP");
 
             //ACT + ASSERT
             Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
 
             verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
-        }*/
+        }
+
+        @Test
+        @DisplayName("If the address complement field is empty or null, an error should be reported.")
+        void BuyerWithoutAddressComplement() {
+            //ARRANGE
+            var buyer = CompradorFactory.buyerInsertAderessData("01001-000", "Praça da Sé", "Sé", "4856", null, "SP");
+
+            //ACT + ASSERT
+            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+
+            verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
+        }
 
         @Test
         @DisplayName("If the name field is empty or null, an error should be reported")
@@ -125,7 +137,6 @@ class CompradorValidatorTest {
 
             verify(cpfValidator, never()).checkCPF(buyer.getCpf());
         }
-
     }
 
 }
