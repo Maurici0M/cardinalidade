@@ -1,6 +1,7 @@
 package com.pedidos.service.impl;
 
 import com.pedidos.domain.Comprador;
+import com.pedidos.dto.BuyerDataDTO;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.service.CompradorService;
 import com.pedidos.validation.CompradorValidator;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompradorServiceImpl implements CompradorService {
@@ -26,7 +28,7 @@ public class CompradorServiceImpl implements CompradorService {
     }
 
     @Override
-    public Comprador registerBuyer(Comprador comprador) {
+    public BuyerDataDTO registerBuyer(Comprador comprador) {
         compradorValidator.validateAllDataRegistration(comprador);
 
         buyerRepository.findByCpf(comprador.getCpf()).ifPresent(buyer -> {
@@ -34,12 +36,16 @@ public class CompradorServiceImpl implements CompradorService {
                     "O comprador já está cadastrado. Somente é permitido um cadastro por CPF!");
         });
 
-        return buyerRepository.save(comprador);
+        var savedBuyer = buyerRepository.save(comprador);
+
+        return new BuyerDataDTO(savedBuyer);
     }
 
     @Override
-    public List<Comprador> listarCompradores() {
-        return buyerRepository.findAll();
+    public List<BuyerDataDTO> listarCompradores() {
+        return buyerRepository.findAll().stream().map(
+                BuyerDataDTO::new
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -47,4 +53,5 @@ public class CompradorServiceImpl implements CompradorService {
 
         return null;
     }
+
 }

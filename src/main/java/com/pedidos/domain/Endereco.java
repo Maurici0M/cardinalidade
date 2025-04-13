@@ -1,6 +1,5 @@
 package com.pedidos.domain;
 
-import com.pedidos.dto.BuyerAddressDataDTO;
 import lombok.Getter;
 import lombok.Setter;
 

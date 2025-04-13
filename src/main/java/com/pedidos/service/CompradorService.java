@@ -1,14 +1,15 @@
 package com.pedidos.service;
 
 import com.pedidos.domain.Comprador;
+import com.pedidos.dto.BuyerDataDTO;
 
 import java.util.List;
 
 public interface CompradorService {
 
-    Comprador registerBuyer(Comprador comprador);
+    BuyerDataDTO registerBuyer(Comprador comprador);
 
-    List<Comprador> listarCompradores();
+    List<BuyerDataDTO> listarCompradores();
 
     Comprador listaComprador(int id);
 }
