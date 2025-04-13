@@ -1,5 +1,6 @@
 package com.pedidos.domain;
 
+import com.pedidos.dto.BuyerAddressDataDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,8 @@ public class Endereco {
     private String cep;
     private String logradouro;
     private String bairro;
+    private String numero;
+    private String complemento;
     @JoinColumn(name = "cidade_id")
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Cidade cidade;
@@ -24,11 +27,18 @@ public class Endereco {
     public Endereco() {
     }
 
-    public Endereco(Cidade cidade, String uf, String bairro, String logradouro, String cep) {
-        this.cidade = cidade;
-        this.uf = uf;
-        this.bairro = bairro;
-        this.logradouro = logradouro;
+    public Endereco(String cep, String logradouro, String bairro, String numero, String complemento, Cidade cidade, String uf) {
         this.cep = cep;
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.cidade =
+                new Cidade(
+                        cidade.getNome(),
+                new Estado(
+                        cidade.getEstado().getNome()
+                ));
+        this.uf = uf;
     }
 }
