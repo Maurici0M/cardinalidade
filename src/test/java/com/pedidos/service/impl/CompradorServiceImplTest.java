@@ -114,7 +114,7 @@ class CompradorServiceImplTest {
             //ARRANGE
             var buyer = CompradorFactory.buyerInsertPersonalData(
                     "Claire",
-                    "    ",
+                    "Redfield",
                     null,
                     "12345678901"
             );
