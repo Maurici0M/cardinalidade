@@ -25,7 +25,7 @@ public class CompradorValidator {
     public void validateDataFieldRegistration(String field, String fieldName){
         if (Objects.isNull(field) || field.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "O campo " + fieldName + " é obrigatório e não pode estar vazio!");
+                    "O campo " + fieldName.toUpperCase() + " é obrigatório e não pode estar vazio!");
         }
 
     }
@@ -58,9 +58,11 @@ public class CompradorValidator {
     //validará campos de dados pessoais
     public void validatePersonalDataFields(Comprador comprador){
         validateDataFieldRegistration(comprador.getNome(), "nome");
+
         validAmountCharacters(comprador.getNome(), 3);
 
         validateDataFieldRegistration(comprador.getSobrenome(), "sobrenome");
+
         validAmountCharacters(comprador.getSobrenome(), 3);
 
         validateAge(comprador.getDataNascimento()); //validará a idade
@@ -70,6 +72,7 @@ public class CompradorValidator {
 
     //validará campos do endereço
     public void validateRegistrationDataAddress(Endereco endereco){
+
         if (Objects.isNull(endereco)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Os dados de endereço são obrigatórios e não podem estar vazio!");
@@ -78,6 +81,8 @@ public class CompradorValidator {
         validateDataFieldRegistration(endereco.getCep(), "cep");
         validateDataFieldRegistration(endereco.getLogradouro(), "logradouro");
         validateDataFieldRegistration(endereco.getBairro(), "bairro");
+        validateDataFieldRegistration(endereco.getNumero(), "número");
+        validateDataFieldRegistration(endereco.getComplemento(), "complemento");
         validateDataFieldRegistration(endereco.getUf(), "uf");
         validateDataFieldRegistration(endereco.getCidade().getNome(), "cidade");
         validateDataFieldRegistration(endereco.getCidade().getEstado().getNome(), "estado");
