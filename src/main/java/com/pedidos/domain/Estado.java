@@ -12,10 +12,13 @@ public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String nome;
 
     public Estado() {
     }
 
+    public Estado(String nome) {
+        this.nome = nome;
+    }
 }

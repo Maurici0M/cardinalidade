@@ -16,7 +16,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     private String descricao;
     private BigDecimal valor;
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CompradorService {
 
-    Comprador criarComprador(Comprador comprador);
+    Comprador registerBuyer(Comprador comprador);
 
     List<Comprador> listarCompradores();
 
