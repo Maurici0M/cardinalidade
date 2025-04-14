@@ -50,9 +50,12 @@ class CompradorValidatorTest {
             var buyer = CompradorFactory.buyerInsertAderessData("", "Praça da Sé", "Sé", "4895", "CS 1", "SP");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo CEP é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
@@ -62,9 +65,12 @@ class CompradorValidatorTest {
             var buyer = CompradorFactory.buyerInsertAderessData("01001-000", "Praça da Sé", "Sé", "", "CS 1", "SP");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo NÚMERO é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
@@ -74,24 +80,31 @@ class CompradorValidatorTest {
             var buyer = CompradorFactory.buyerInsertAderessData("01001-000", "Praça da Sé", "Sé", "4856", null, "SP");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, times(1)).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo COMPLEMENTO é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
         @DisplayName("If the name field is empty or null, an error should be reported")
         void buyerWithNoName() {
             //ARRANGE
-            var buyer = CompradorFactory.buyerInsertPersonalData("",
+            var buyer = CompradorFactory.buyerInsertPersonalData(
+                    "",
                     "Wong",
                     LocalDate.of(1990, 11, 26),
                     "12345678901");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator,never()).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo NOME é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
@@ -105,9 +118,12 @@ class CompradorValidatorTest {
                     "12345678901");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, never()).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo SOBRENOME é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
@@ -117,9 +133,12 @@ class CompradorValidatorTest {
             var buyer = CompradorFactory.buyerInsertPersonalData("Ada", "Wong", null, "12345678901");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, never()).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("O campo data de nascimento é de preenchimento obrigatório e não pode estar vazio!", exception.getReason());
         }
 
         @Test
@@ -133,9 +152,12 @@ class CompradorValidatorTest {
                     "12345678901");
 
             //ACT + ASSERT
-            Assertions.assertThrows(ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer));
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.validateAllDataRegistration(buyer)
+            );
 
             verify(cpfValidator, never()).checkCPF(buyer.getCpf());
+            Assertions.assertEquals("É necessário ter no mínimo 18 anos para se cadastrar na plataforma!", exception.getReason());
         }
     }
 
