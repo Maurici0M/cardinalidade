@@ -1,18 +1,12 @@
 <h1 align='center'>Desafio API REST</h1>
 
-<div style = 'display:flex; justify-content: center; gap: 3%'>
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original-wordmark.svg" style='height: 50px'/>
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original-wordmark.svg" style='height: 50px'/>
-
-<img src="https://em-content.zobj.net/source/microsoft-teams/363/saluting-face_1fae1.png" alt="Emoji de saudação" height="50px">
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" style='height: 50px'/>
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg" style='height: 50px'/>
-
-</div>
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original-wordmark.svg" height="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original-wordmark.svg" height="50px"/>
+  <img src="https://em-content.zobj.net/source/microsoft-teams/363/saluting-face_1fae1.png" alt="Emoji de saudação" height="50px" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" height="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg" height="50px"/>
+</p>
 
 <h3>Objetivos:</h3>
 
@@ -137,15 +131,15 @@
 
 <h1 align='center'>Informações técnicas</h1>
 
-<div style = 'display:flex; justify-content: center; gap: 3%'>
+<p align='center'>
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" style='height: 50px'/>
 
-<img align='center' width="50px" src="https://em-content.zobj.net/source/microsoft-teams/363/nerd-face_1f913.png" alt="Emoji nerd">
+<img src="https://em-content.zobj.net/source/microsoft-teams/363/nerd-face_1f913.png" alt="Emoji nerd" style='height: 50px'>
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/insomnia/insomnia-original.svg" style='height: 50px'/>
 
-</div>
+</p>
 <br>
 
 <details>
