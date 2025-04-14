@@ -15,6 +15,8 @@
 <br>
 
 <details>
+<br>
+
 <summary><b>Fazer um fork do projeto Cardinalidade, e utilizar os conhecimentos obtidos em Java para:</b></summary>
 
 <p>Desenvolver métodos nos controllers que utilizem os verbos:</p>
@@ -30,11 +32,12 @@
 
 <details>
 <summary><b>Utilizar das boas práticas de programação:</b></summary>
-    
+<br>
+  
 <p>Cada classe, deve ter a sua responsabilidade única, para tornar o projeto mais simples e de fácil manutenção. A estrutura atual contém:</p>
 
     -> Classes DTO para controlar e formatar os dados de saída da aplicação;
-    -> Classes de Utilidade (Util) onde atualmente temos métodos de formatação de texto e campos de dada; 
+    -> Classes de Utilidade (Util) onde atualmente temos métodos de formatação de texto e campos de data; 
     -> Classes de Validação (Validation) onde ficará toda a lógica de validação das informações recebidas;
 
 </details>
@@ -42,6 +45,7 @@
 
 <details>
 <summary><b>"Testar antes de ir para o ar":</b></summary>
+<br>
 
 <p>Existem muitas possibilidades de testes para a aplicação, que vão desde verificar se os campos x, y ou z estão vazios ou nulos, até verificações em repositórios. É possível utilizar o Postman ou Insomnia para verificar os retornos, mas, isso seria muito demorado e custoso.</p>
 
@@ -61,6 +65,7 @@
 
 <details>
 <summary><b>Factory:</b></summary>
+<br>
 
 <p>Aqui terá métodos com instâncias de classes, para facilitar na utilização de mocks durante os testes.</p>
 
@@ -77,6 +82,7 @@
 
 <details>
 <summary><b>Service:</b></summary>
+<br>
 
 <p>As classes de serviço ficarão responsáveis por conectar os dados recebidos dos controllers as classes de validação, e caso as validações apontem erros, deverá tratar os dados nos repository's.</p>
 
@@ -85,6 +91,7 @@
 
 <details>
 <summary><b>Util:</b></summary>
+<br>
 
 <p>Aqui ficarão classes úteis, atualmente ela disponibiliza métodos para padronização dos tipos de textos recebidos da API e disponibiliza métodos de formatação para campos de data.</p>
 
@@ -93,6 +100,7 @@
 
 <details>
 <summary><b>Validation:</b></summary>
+<br>
 
 <p>Aqui ficará localizado as regras de negócios. Geralmente as validações de dados recebidos da API passarão por essas classes. Nelas, temos uma estrutura preparada para validar cada método disponível nos controllers, e o seu objetivo é garantir que todos os dados necessários para a aplicação prosseguir com as requisições estão sendo recebidos da forma correta.</p>
 
@@ -111,6 +119,7 @@
 
 <details>
 <summary><b>Dar vida a aplicação!</b></summary>
+<br>
 
 <p>Através do framework Angular, o objetivo será conectar a API numa estrutura visual, onde seja possível utilizar de todos os métodos disponíveis nos controladores da aplicação back-end!</p>
 
@@ -144,15 +153,17 @@
 
 <details>
 <summary><b>Como fazer requisições na API?</b></summary>
+<br>
 
 <p>É aconselhável que seja utilizado o <b>Postman</b> ou <b>Insomnia</b> para realizar as requisições, mas, sinta-se livre para utilizar das ferramentas que melhor preferir!</p>
 
 <details>
-<summary><b>Comprador</b></summary>
+<summary><b>Comprador Controller</b></summary>
 <br>
 
 <details>
 <summary><b>Cadastrar</b></summary>
+<br>
 
 <p>Para cadastrar um comprador, precisamos fazer uma requisição do tipo POST e enviar os dados no formato JSON da seguinte forma: </p>
 
@@ -194,6 +205,7 @@
 
 <details>
 <summary>Enviar branch local para o repositório remoto</summary>
+<br>
 
 <p>
     Caso uma branch seja criada localmente, e não esteja disponível no repositório remoto, é possível enviá-la utilizando o seguinte comando:
@@ -205,6 +217,7 @@
 
 <details>
 <summary><b>Para verificar todas as branches remotas disponíveis, utilize o comando:</b></summary>
+<br>
 
     git branch -r
 </details>
@@ -216,6 +229,7 @@
 Para verificar todas as branches (locais e remotas), utilize o comando:
 </b> 
 </summary>
+<br>
 
     git branch -a
 </details>
@@ -225,6 +239,7 @@ Para verificar todas as branches (locais e remotas), utilize o comando:
 <summary>
 Para atualizar todas as branches do repositório local com as últimas alterações do repositório remoto, você pode usar o comando a seguir:
 </summary>
+<br>
         
     git fetch --all
 </details>
@@ -233,6 +248,7 @@ Para atualizar todas as branches do repositório local com as últimas alteraç�
 <details>
 <summary><b>Atualize as suas branches locais, uma por vez: Cada branch local precisa ser atualizada manualmente com o comando abaixo (enquanto você está dentro da branch local que deseja atualizar):
 </b></summary>
+<br>
 
     git pull origin nome-da-branch
 </details>
