@@ -20,7 +20,7 @@
 <summary><b>Fazer um fork do projeto Cardinalidade, e utilizar os conhecimentos obtidos em Java para:</b></summary>
 
 <p>Desenvolver métodos nos controllers que utilizem os verbos:</p>
-    
+
     * GET       ==>     Deve retornar dados de leitura ao realizar as requisições; 
     * POST      ==>     Deve permitir a inclusão de dados na API;
     * PUT       ==>     Deve ser utilizado para fazer mudanças de múltiplos campos;
@@ -33,7 +33,7 @@
 <details>
 <summary><b>Utilizar das boas práticas de programação:</b></summary>
 <br>
-  
+
 <p>Cada classe, deve ter a sua responsabilidade única, para tornar o projeto mais simples e de fácil manutenção. A estrutura atual contém:</p>
 
     -> Classes DTO para controlar e formatar os dados de saída da aplicação;
@@ -192,6 +192,279 @@
 
 
 </details>
+<br>
+
+<details>
+<summary><b>Cadastrar vários compradores (método para testes)</b></summary>
+<br>
+
+<p>Caso deseje testar a paginação da aplicação, ou mesmo, verificar o funcionamento dos métodos disponíveis, pense em utilizar a criação de compradores em massa.</p>
+
+<p>Esse método aceita um array de compradores, o que permite fazer vários cadastros de uma só vez.</p>
+
+    POST -> http://localhost:8080/test
+
+<br>
+<details>
+<summary>JSON para criar cadastros</summary>
+
+<p>Dez registros para realizar testes de povoamento dos dados na aplicação:</p>
+
+    [
+        {
+        "nome": "Asuma",
+        "sobrenome": "Sarutobi",
+        "dataNascimento": "1980-05-10",
+        "cpf": "12345678901",
+        "endereco": {
+        "cep": "01001-001",
+        "logradouro": "Rua das Kunais",
+        "bairro": "Konoha Centro",
+        "numero": "101",
+        "complemento": "Ap 1",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Boruto",
+        "sobrenome": "Uzumaki",
+        "dataNascimento": "2005-03-27",
+        "cpf": "12345678902",
+        "endereco": {
+        "cep": "01001-002",
+        "logradouro": "Avenida Chakra",
+        "bairro": "Konoha Sul",
+        "numero": "202",
+        "complemento": "Casa 2",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Choji",
+        "sobrenome": "Akimichi",
+        "dataNascimento": "1992-06-11",
+        "cpf": "12345678903",
+        "endereco": {
+        "cep": "01001-003",
+        "logradouro": "Travessa Ichiraku",
+        "bairro": "Bairro da Folha",
+        "numero": "303",
+        "complemento": "Fundos",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Deidara",
+        "sobrenome": "Iwagakure",
+        "dataNascimento": "1988-12-05",
+        "cpf": "12345678904",
+        "endereco": {
+        "cep": "01001-004",
+        "logradouro": "Alameda da Arte Explosiva",
+        "bairro": "Vila da Pedra",
+        "numero": "404",
+        "complemento": "Ateliê",
+        "cidade": {
+        "nome": "Iwa",
+        "estado": {
+        "nome": "País da Terra"
+        }
+        },
+        "uf": "pt"
+        }
+        },
+        
+        {
+        "nome": "Gaara",
+        "sobrenome": "Sabaku",
+        "dataNascimento": "1993-01-19",
+        "cpf": "12345678905",
+        "endereco": {
+        "cep": "01001-005",
+        "logradouro": "Rua da Areia Vermelha",
+        "bairro": "Vila Oculta da Areia",
+        "numero": "505",
+        "complemento": "Residência Kazekage",
+        "cidade": {
+        "nome": "Suna",
+        "estado": {
+        "nome": "País do Vento"
+        }
+        },
+        "uf": "pv"
+        }
+        },
+        
+        {
+        "nome": "Hinata",
+        "sobrenome": "Hyuga",
+        "dataNascimento": "1991-07-28",
+        "cpf": "12345678906",
+        "endereco": {
+        "cep": "01001-006",
+        "logradouro": "Avenida Byakugan",
+        "bairro": "Vila Hyuga",
+        "numero": "606",
+        "complemento": "Térreo",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Ino",
+        "sobrenome": "Yamanaka",
+        "dataNascimento": "1993-09-03",
+        "cpf": "12345678907",
+        "endereco": {
+        "cep": "01001-007",
+        "logradouro": "Rua das Flores Mentais",
+        "bairro": "Vila Flor",
+        "numero": "707",
+        "complemento": "Loja",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Jiraiya",
+        "sobrenome": "Sannin",
+        "dataNascimento": "1960-02-14",
+        "cpf": "12345678908",
+        "endereco": {
+        "cep": "01001-008",
+        "logradouro": "Travessa dos Sábios",
+        "bairro": "Monte Myoboku",
+        "numero": "808",
+        "complemento": "Casa 8",
+        "cidade": {
+        "nome": "Monte Myoboku",
+        "estado": {
+        "nome": "Terras Sábias"
+        }
+        },
+        "uf": "ts"
+        }
+        },
+        
+        {
+        "nome": "Kakashi",
+        "sobrenome": "Hatake",
+        "dataNascimento": "1983-09-15",
+        "cpf": "12345678909",
+        "endereco": {
+        "cep": "01001-009",
+        "logradouro": "Rua do Sharingan",
+        "bairro": "Colina Kakashi",
+        "numero": "909",
+        "complemento": "Sala de Leitura",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        },
+        
+        {
+        "nome": "Lee",
+        "sobrenome": "Rock",
+        "dataNascimento": "1994-03-18",
+        "cpf": "12345678910",
+        "endereco": {
+        "cep": "01001-010",
+        "logradouro": "Alameda da Juventude",
+        "bairro": "Vila da Força",
+        "numero": "1010",
+        "complemento": "Dojo",
+        "cidade": {
+        "nome": "Konoha",
+        "estado": {
+        "nome": "País do Fogo"
+        }
+        },
+        "uf": "pf"
+        }
+        }
+    ]
+
+
+</details>
+
+</details>
+<br>
+
+<details>
+<summary><b>Listar todos os compradores</b></summary>
+<br>
+
+<p>Para obtermos a lista de todos os compradores cadastrados na aplicação, precisamos fazer uma requisição GET da seguinte forma:</p>
+
+    GET -> http://localhost:8080/comprador
+
+<p>Essa listagem trará dez registros por vez, por conta da configuração de paginação padrão aplicada no projeto, e a ordem de exibição será com base no nome, ou seja, primeiro os compradores com nome <b>A</b> depois os com nome <b>B</b> e assim por diante.</p>
+
+<p>Porém, é possível personalizar o modo de exibição da lista de compradores da seguinte forma:</p>
+
+    Infos sobre os parâmetros passados na URL de requisição:
+
+    size -> É a quantidade de arquivos que desejamos trazer ao listar os compradores, por exemplo, 10 compradores por página (page = 10)
+    page -> É o número da página que desejamos visualizar (lembrando que os registros começam de page = 0)
+    sort -> É o parâmetro de ordenação que desejamos levar em conta, por exemplo, ordenar     
+    
+    Exemplos de requisições possíveis:
+
+    Listar pela ordenação do parâmetro em forma decrescente Z-A ou Maior número ao Menor
+    GET -> http://localhost:8080/comprador?sort=nome_parametro,desc 
+
+    Listar pela ordenação do parâmetro em forma crescente (padrão) A-Z Menor número ao Maior
+    GET -> http://localhost:8080/comprador?sort=nome_parametro
+
+    Listar somente uma quantidade específica de dados por vez, por exmeplo, 3 registros por cada página
+    GET -> http://localhost:8080/comprador?size=3
+    
+    Listar iniciando de uma página específica (o padrão trará 10 registros por página, caso tenhamos 20 cadastros somente seriam vistos na próxima página)
+    GET -> http://localhost:8080/comprador?page=1
+
+    Listar personalizando vários parâmetros (10 registros por página, iniciando da página "2" e organizando em ordem crescente (padrão) pelo parâmetro nome):
+    GET -> http://localhost:8080/comprador?size=10&page=1&sort=nome
+
+</details>
+<br>
 
 </details>
 
@@ -240,7 +513,7 @@ Para verificar todas as branches (locais e remotas), utilize o comando:
 Para atualizar todas as branches do repositório local com as últimas alterações do repositório remoto, você pode usar o comando a seguir:
 </summary>
 <br>
-        
+
     git fetch --all
 </details>
 <br>
