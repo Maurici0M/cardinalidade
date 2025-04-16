@@ -2,6 +2,7 @@ package com.pedidos.validation;
 
 import com.pedidos.domain.Comprador;
 import com.pedidos.domain.Endereco;
+import com.pedidos.dto.EditableBuyerDataDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,7 +28,6 @@ public class CompradorValidator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "O campo " + fieldName.toUpperCase() + " é obrigatório e não pode estar vazio!");
         }
-
     }
 
     //Irá validar a idade
@@ -88,6 +88,25 @@ public class CompradorValidator {
         validateDataFieldRegistration(endereco.getCidade().getEstado().getNome(), "estado");
     }
 
+    //validará campos para edição do endereço
+    public void validAddressEditRegistration(EditableBuyerDataDTO buyerDataEditableDTO){
+        if (Objects.isNull(buyerDataEditableDTO)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Os dados de endereço são obrigatórios e não podem estar vazio!");
+        }
+
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getCep(), "cep");
+        validAmountCharacters(buyerDataEditableDTO.getEndereco().getCep(), "cep",8);
+
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getLogradouro(), "logradouro");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getBairro(), "bairro");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getNumero(), "número");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getComplemento(), "complemento");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getUf(), "uf");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getCidade(), "cidade");
+        validateDataFieldRegistration(buyerDataEditableDTO.getEndereco().getEstado(), "estado");
+    }
+
     /*------ Validator methods ------*/
 
     //valida todos os campos de cadastro
@@ -95,6 +114,11 @@ public class CompradorValidator {
         validatePersonalDataFields(comprador); //valida os dados pessoais
 
         validateRegistrationDataAddress(comprador.getEndereco()); //valida os dados de endereço
+    }
+
+    //valida os campos de edição do endereço de cadastro
+    public void editBuyerRegistration(EditableBuyerDataDTO buyerDataEditableDTO){
+        validAddressEditRegistration(buyerDataEditableDTO);
     }
 
 }

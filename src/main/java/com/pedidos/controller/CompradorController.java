@@ -2,6 +2,7 @@ package com.pedidos.controller;
 
 import com.pedidos.domain.Comprador;
 import com.pedidos.dto.BuyerDataDTO;
+import com.pedidos.dto.EditableBuyerDataDTO;
 import com.pedidos.service.CompradorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +48,7 @@ public class CompradorController {
     @GetMapping("listar/cpf")
     @Transactional(readOnly = true)
     public ResponseEntity<BuyerDataDTO> listBuyerByCPF(@RequestBody Comprador comprador) {
-        var buyer = service.listBuyerByCPF(comprador);
+        var buyer = service.listBuyerByCPF(comprador.getCpf());
 
         return ResponseEntity.ok(buyer);
     }
@@ -62,9 +63,10 @@ public class CompradorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Void> editBuyerRegistration(@RequestBody Comprador comprador){
+    public ResponseEntity<Void> editBuyerRegistration(@RequestBody EditableBuyerDataDTO buyerDataEditableDTO){
+        service.editBuyerRegistration(buyerDataEditableDTO);
 
-        return null;
+        return ResponseEntity.noContent().build();
     }
 
 }

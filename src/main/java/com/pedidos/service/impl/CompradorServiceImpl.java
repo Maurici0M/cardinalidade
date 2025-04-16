@@ -1,7 +1,9 @@
 package com.pedidos.service.impl;
 
 import com.pedidos.domain.Comprador;
+import com.pedidos.domain.Endereco;
 import com.pedidos.dto.BuyerDataDTO;
+import com.pedidos.dto.EditableBuyerDataDTO;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.service.CompradorService;
 import com.pedidos.validation.CompradorValidator;
@@ -73,15 +75,14 @@ public class CompradorServiceImpl implements CompradorService {
     }
 
     @Override
-    public BuyerDataDTO listBuyerByCPF(Comprador comprador){
+    public BuyerDataDTO listBuyerByCPF(String cpf){
 
-        return buyerRepository.findByCpf(comprador.getCpf())
+        return buyerRepository.findByCpf(cpf)
                 .map(BuyerDataDTO::new)
                 .orElseThrow(()->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
                                 "Não foi possível encontrar dados de cadastro para o CPF digitado!")
                 );
-
     }
 
     @Override
@@ -98,6 +99,17 @@ public class CompradorServiceImpl implements CompradorService {
                         "Não foi possível encontrar dados de cadastro para o CPF digitado!")
         );
 
+    }
+
+    @Override
+    public void editBuyerRegistration(EditableBuyerDataDTO editableBuyerDataDTO) {
+        var buyer = buyerRepository.findByCpf(editableBuyerDataDTO.getCpf())
+                .orElseThrow( ()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Não foi possível encontrar dados de cadastro para o CPF digitado!"));
+
+        compradorValidator.editBuyerRegistration(editableBuyerDataDTO);
+
+        buyer.setEndereco(new Endereco(editableBuyerDataDTO));
     }
 
 }
