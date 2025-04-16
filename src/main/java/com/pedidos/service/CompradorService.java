@@ -15,6 +15,10 @@ public interface CompradorService {
 
     Page<BuyerDataDTO> listAllBuyers(Pageable paginacao);
 
+    BuyerDataDTO listBuyerByCPF(Comprador comprador);
+
     Comprador listaComprador(int id);
+
+    void deleteBuyerRegistrationByCPF(Comprador comprador);
 
 }

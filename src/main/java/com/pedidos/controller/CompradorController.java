@@ -39,8 +39,25 @@ public class CompradorController {
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public Page<BuyerDataDTO> listAllBuyers(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return service.listAllBuyers(paginacao);
+    }
+
+    @GetMapping("listar/cpf")
+    @Transactional(readOnly = true)
+    public ResponseEntity<BuyerDataDTO> listBuyerByCPF(@RequestBody Comprador comprador) {
+        var buyer = service.listBuyerByCPF(comprador);
+
+        return ResponseEntity.ok(buyer);
+    }
+
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity<Void> deleteBuyerRegistration(@RequestBody Comprador comprador){
+        service.deleteBuyerRegistrationByCPF(comprador);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

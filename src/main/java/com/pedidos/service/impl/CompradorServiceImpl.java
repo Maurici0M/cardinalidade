@@ -73,9 +73,31 @@ public class CompradorServiceImpl implements CompradorService {
     }
 
     @Override
+    public BuyerDataDTO listBuyerByCPF(Comprador comprador){
+
+        return buyerRepository.findByCpf(comprador.getCpf())
+                .map(BuyerDataDTO::new)
+                .orElseThrow(()->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Não foi possível encontrar dados de cadastro para o CPF digitado!")
+                );
+
+    }
+
+    @Override
     public Comprador listaComprador(int id) {
 
         return null;
+    }
+
+    @Override
+    public void deleteBuyerRegistrationByCPF(Comprador comprador) {
+
+        buyerRepository.deleteByCpf(comprador.getCpf()).orElseThrow( () ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Não foi possível encontrar dados de cadastro para o CPF digitado!")
+        );
+
     }
 
 }
