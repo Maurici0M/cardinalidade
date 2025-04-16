@@ -1,5 +1,7 @@
 package com.pedidos.service.impl;
 
+import com.pedidos.domain.Comprador;
+import com.pedidos.dto.BuyerDataDTO;
 import com.pedidos.factory.CompradorFactory;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.validation.CPFValidator;
@@ -11,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -392,6 +396,30 @@ class CompradorServiceImplTest {
 
     }
 
+    @Nested
+    class registerBuyerListForTest{
+
+        @Test
+        @DisplayName("If there are no errors when sending an array with multiple buyers to be registered at once, it will be successful.")
+        void registerMultipleBuyersAtOnce(){
+            //ARRANGE
+            var buyerList = CompradorFactory.buyerListWithCompleteData();
+
+            //ACT
+            for(Comprador comprador : buyerList){
+                BDDMockito.given(compradorRepository.findByCpf(comprador.getCpf())).willReturn(Optional.empty());
+
+                BDDMockito.given(compradorRepository.save(comprador)).willReturn(comprador);
+            }
+
+            //ASSERT
+            Assertions.assertDoesNotThrow( ()-> compradorService.registerBuyerListForTest(buyerList));
+
+            verify(compradorValidator, times(3)).validateAllDataRegistration(any(Comprador.class));
+            verify(compradorRepository, times(3)).findByCpf(anyString());
+            verify(compradorRepository, times(3)).save(any(Comprador.class));
+        }
+
+    }
+
 }
-
-

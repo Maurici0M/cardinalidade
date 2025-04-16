@@ -3,6 +3,8 @@ package com.pedidos.factory;
 import com.pedidos.domain.Comprador;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CompradorFactory {
 
@@ -41,6 +43,19 @@ public class CompradorFactory {
                 "12345678901",
                 endereco
         );
+    }
+
+    public static List<Comprador> buyerListWithCompleteData(){
+        List<Comprador> buyerList = new LinkedList<>();
+        var buyer1 = buyerInsertPersonalData("Elisa", "Alves", LocalDate.of(1985, 3, 17), "12345678900");
+        var buyer2 = buyerInsertPersonalData("Chris", "Redfield", LocalDate.of(1990, 8, 25), "12345678901");
+        var buyer3 = buyerInsertPersonalData("Jill", "Valantine", LocalDate.of(1995, 11, 28), "12345678902");
+
+        buyerList.add(buyer1);
+        buyerList.add(buyer2);
+        buyerList.add(buyer3);
+
+        return buyerList;
     }
 
 }
