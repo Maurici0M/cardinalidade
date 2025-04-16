@@ -205,8 +205,9 @@
     POST -> http://localhost:8080/test
 
 <br>
+
 <details>
-<summary>JSON para criar cadastros</summary>
+<summary><b>JSON para criar cadastros</b></summary>
 
 <p>Dez registros para realizar testes de povoamento dos dados na aplicação:</p>
 
@@ -465,6 +466,37 @@
 
 </details>
 <br>
+
+<details>
+<summary><b>Listar comprador por CPF</b></summary>
+
+<p>Diferente do método de listar todos os compradores, a listagem por CPF permitirá a visualização das informações únicas de um comprador em específico. Para utilizar desse método, basta fazer a seguinte requisição:</p>
+
+    GET -> http://localhost:8080/comprador/listar/cpf
+    
+    No corpo da requisição, envie o seguinte JSON:
+
+    {
+        "cpf": "numero_do_cpf_com_11_digitos"
+    }
+
+</details>
+<br>
+
+<details>
+<summary><b>Excluir cadastro do comprador por CPF</b></summary>
+
+<p>Caso queira excluir os dados do comprador da aplicação, basta fazer a seguinte requisição:</p>
+
+    DELETE -> http://localhost:8080/comprador
+    
+    No corpo da requisição, envie o seguinte JSON:
+
+    {
+        "cpf": "numero_do_cpf_com_11_digitos"
+    }
+
+</details>
 
 </details>
 
