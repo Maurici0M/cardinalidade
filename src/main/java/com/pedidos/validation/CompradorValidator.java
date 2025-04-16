@@ -48,10 +48,10 @@ public class CompradorValidator {
     }
 
     //validará a quantidade de caracteres dos campos
-    public void validAmountCharacters(String field, int numberCharacters){
+    public void validAmountCharacters(String field, String fieldName, int numberCharacters){
         if (field.trim().length() < numberCharacters){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "O campo " + field + " precisa ter no mínimo " + numberCharacters + " caracteres!");
+                    "O campo " + fieldName.toUpperCase() + " precisa ter no mínimo " + numberCharacters + " caracteres!");
         }
     }
 
@@ -59,11 +59,11 @@ public class CompradorValidator {
     public void validatePersonalDataFields(Comprador comprador){
         validateDataFieldRegistration(comprador.getNome(), "nome");
 
-        validAmountCharacters(comprador.getNome(), 3);
+        validAmountCharacters(comprador.getNome(), "nome",3);
 
         validateDataFieldRegistration(comprador.getSobrenome(), "sobrenome");
 
-        validAmountCharacters(comprador.getSobrenome(), 3);
+        validAmountCharacters(comprador.getSobrenome(), "sobrenome", 3);
 
         validateAge(comprador.getDataNascimento()); //validará a idade
 
