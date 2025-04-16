@@ -60,4 +60,11 @@ public class CompradorController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping
+    @Transactional
+    public ResponseEntity<Void> editBuyerRegistration(@RequestBody Comprador comprador){
+
+        return null;
+    }
+
 }
