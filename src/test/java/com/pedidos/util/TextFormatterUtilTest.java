@@ -40,7 +40,7 @@ class TextFormatterUtilTest {
     @DisplayName("If the text to be converted has less than 3 letters, it should return null")
     void capitalizeFirstLetterErrorLessThanThreeLetters() {
         //ARRANGE
-        String text = "Ad"; //string vazia, mas, com espaços (o trim deve ignorar os espaços e enviar retorno null)
+        String text = "Ad";
 
         //ACT + ASSERT
         Assertions.assertNull(TextFormatterUtil.captalizeFirstLetter(text));

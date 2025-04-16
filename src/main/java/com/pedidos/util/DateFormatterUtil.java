@@ -18,7 +18,7 @@ public class DateFormatterUtil {
     }
 
     public static String formatDataYYYYMMDD(LocalDate date){
-        //formata a data no padrão brasileiro 13/04/2025
+        //formata a data no padrão 2025/04/13
         if (Objects.nonNull(date)){
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
