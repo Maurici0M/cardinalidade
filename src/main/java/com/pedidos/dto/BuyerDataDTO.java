@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class BuyerDataDTO {
+    private Integer id;
     private String nome;
     private String sobrenome;
 
@@ -24,6 +25,7 @@ public class BuyerDataDTO {
     }
 
     public BuyerDataDTO(Comprador comprador) {
+        this.id = comprador.getId();
         this.nome = TextFormatterUtil.captalizeFirstLetter(comprador.getNome());
         this.sobrenome = TextFormatterUtil.captalizeFirstLetter(comprador.getSobrenome());
         this.dataNascimento = comprador.getDataNascimento();
