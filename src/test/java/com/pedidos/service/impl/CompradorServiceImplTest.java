@@ -2,6 +2,7 @@ package com.pedidos.service.impl;
 
 import com.pedidos.domain.Comprador;
 import com.pedidos.factory.CompradorFactory;
+import com.pedidos.factory.EditableBuyerDataDTOFactory;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.validation.CPFValidator;
 import com.pedidos.validation.CompradorValidator;
@@ -42,7 +43,7 @@ class CompradorServiceImplTest {
     }
 
     @Nested
-    class registerBuyer{
+    class RegisterBuyer{
 
         @Test
         @DisplayName("If there are no validation reports in the registration, it must be carried out successfully.")
@@ -398,7 +399,7 @@ class CompradorServiceImplTest {
     }
 
     @Nested
-    class registerBuyerListForTest{
+    class RegisterBuyerListForTest{
 
         @Test
         @DisplayName("If there are no errors when sending an array with multiple buyers to be registered at once, it will be successful.")
@@ -424,7 +425,7 @@ class CompradorServiceImplTest {
     }
 
     @Nested
-    class listAllBuyers{
+    class ListAllBuyers{
 
         @Test
         @DisplayName("If pagination parameters are passed, listing should occur without errors.")
@@ -460,7 +461,7 @@ class CompradorServiceImplTest {
     }
 
     @Nested
-    class listBuyerByCPF{
+    class ListBuyerByCPF{
 
         @Test
         @DisplayName("If the search by CPF returns a buyer, the request will be successful.")
@@ -472,7 +473,7 @@ class CompradorServiceImplTest {
             BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
 
             //ASSERT
-            Assertions.assertDoesNotThrow(()-> compradorService.listBuyerByCPF(buyer));
+            Assertions.assertDoesNotThrow(()-> compradorService.listBuyerByCPF(buyer.getCpf()));
 
             verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
         }
@@ -488,7 +489,7 @@ class CompradorServiceImplTest {
 
             //ASSERT
             ResponseStatusException exception = Assertions.assertThrows( ResponseStatusException.class,
-                    ()-> compradorService.listBuyerByCPF(buyer)
+                    ()-> compradorService.listBuyerByCPF(buyer.getCpf())
             );
 
             Assertions.assertEquals("Não foi possível encontrar dados de cadastro para o CPF digitado!", exception.getReason());
@@ -498,7 +499,48 @@ class CompradorServiceImplTest {
     }
 
     @Nested
-    class deleteBuyerRegistrationByCPF{
+    class EditBuyerRegistration{
+
+        @Test
+        @DisplayName("If there are no validation errors when editing the registration, the request will be successful.")
+        void successfulDataEditing(){
+            //ARRANGE
+            var buyer = CompradorFactory.buyerWithCompleteData();
+            var buyerDataEditable = EditableBuyerDataDTOFactory.completeEditionData("12345678901", 1);
+
+            //ACT
+            BDDMockito.given(compradorRepository.findByCpf(buyerDataEditable.getCpf())).willReturn(Optional.of(buyer));
+
+            //ASSERT
+            Assertions.assertDoesNotThrow(()-> compradorService.editBuyerRegistration(buyerDataEditable));
+
+            verify(compradorRepository, times(1)).findByCpf(buyerDataEditable.getCpf());
+            verify(compradorValidator, times(1)).editBuyerRegistration(buyerDataEditable);
+        }
+
+        @Test
+        @DisplayName("If the buyer is not found in the repository, an error should be reported.")
+        void buyerNotFoundForEdition(){
+            //ARRANGE
+            var buyerDataEditable = EditableBuyerDataDTOFactory.completeEditionData("12345678901", 1);
+
+            //ACT
+            BDDMockito.given(compradorRepository.findByCpf(buyerDataEditable.getCpf())).willReturn(Optional.empty());
+
+            //ASSERT
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorService.editBuyerRegistration(buyerDataEditable)
+            );
+
+            Assertions.assertEquals("Não foi possível encontrar dados de cadastro para o CPF digitado!", exception.getReason());
+            verify(compradorRepository, times(1)).findByCpf(buyerDataEditable.getCpf());
+            verify(compradorValidator, never()).editBuyerRegistration(buyerDataEditable);
+        }
+
+    }
+
+    @Nested
+    class DeleteBuyerRegistrationByCPF{
 
         @Test
         @DisplayName("If the buyer is found, the registration should be successfully deleted.")

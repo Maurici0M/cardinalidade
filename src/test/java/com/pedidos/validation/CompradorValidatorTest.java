@@ -1,6 +1,7 @@
 package com.pedidos.validation;
 
 import com.pedidos.factory.CompradorFactory;
+import com.pedidos.factory.EditableBuyerDataDTOFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -159,6 +160,24 @@ class CompradorValidatorTest {
             verify(cpfValidator, never()).checkCPF(buyer.getCpf());
             Assertions.assertEquals("É necessário ter no mínimo 18 anos para se cadastrar na plataforma!", exception.getReason());
         }
+    }
+
+    @Nested
+    class EditBuyerRegistration{
+
+        @Test
+        @DisplayName("If the buyer's address editing data is passed correctly, the request will be successful.")
+        void successfulDataEditing(){
+            //ARRANGE
+            var buyerDataEditableDTO = EditableBuyerDataDTOFactory.completeEditionData(
+                    "12345678901",
+                    1
+            );
+
+            //ACT + ASSERT
+            Assertions.assertDoesNotThrow(()-> compradorValidator.editBuyerRegistration(buyerDataEditableDTO));
+        }
+
     }
 
 }
