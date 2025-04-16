@@ -11,7 +11,7 @@
 <h3>Objetivos:</h3>
 
 <details>
-<summary>Back-end</summary>
+<summary><b>Back-end</b></summary>
 <br>
 
 <details>
@@ -26,6 +26,10 @@
     * PUT       ==>     Deve ser utilizado para fazer mudanças de múltiplos campos;
     * DELETE    ==>     Deve ser utilizado para excluir informações da API;
     * PATCH     ==>     Deve ser utilizado para realizar mudanças de campos específicos;
+
+<p>Projeto base para fazer o fork:</p>
+
+     https://github.com/guimendes92/cardinalidade
 
 </details>
 <br>
@@ -479,6 +483,33 @@
     {
         "cpf": "numero_do_cpf_com_11_digitos"
     }
+
+</details>
+<br>
+
+<details>
+<summary><b>Editar cadastro do comprador por CPF</b></summary>
+
+<p>Atualmente é possível editar somente os dados de endereço do comprador, e para isso, precisamos fazer a seguinte requisição:</p>
+
+    PUT -> http://localhost:8080/comprador
+
+    {
+        "cpf": "numero_cpf_compador",
+    
+        "endereco" : {
+            "cep": "numero_cep_com_8_numeros",
+            "logradouro" : "dados_logradouro",
+            "bairro": "dados_bairro",
+            "numero" : "numero_imovel",
+            "complemento": "complemento_imovel",
+            "cidade" : "cidade_comprador",
+            "estado": "estado_comprador",
+            "uf": "uf_comprador_com_2_letras"
+        }
+    }
+
+<p>Caso o cpf do comprador não retorne nada, ou algum dado do endereço seja passado de forma incorreta, um throw será acionado com detalhes do erro.</p>
 
 </details>
 <br>
