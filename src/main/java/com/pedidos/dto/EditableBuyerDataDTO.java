@@ -1,15 +1,24 @@
 package com.pedidos.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class EditableBuyerDataDTO {
-    @NotNull
     private Integer id;
 
-    @NotBlank
     private String cpf;
 
-    private BuyerAddressDataDTO buyerAddressDataDTO;
+    private BuyerAddressDataDTO endereco;
+
+    public EditableBuyerDataDTO() {
+    }
+
+    public EditableBuyerDataDTO(String cpf, BuyerAddressDataDTO endereco, Integer id) {
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.id = id;
+    }
 
 }
