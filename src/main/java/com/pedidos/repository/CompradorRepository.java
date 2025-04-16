@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CompradorRepository extends JpaRepository<Comprador, Integer> {
     Optional<Comprador> findByCpf(String cpf);
 
+    Optional<Comprador> deleteByCpf(String cpf);
+
 }
