@@ -1,20 +1,21 @@
 package com.pedidos.service.impl;
 
 import com.pedidos.domain.Comprador;
-import com.pedidos.dto.BuyerDataDTO;
 import com.pedidos.factory.CompradorFactory;
 import com.pedidos.repository.CompradorRepository;
 import com.pedidos.validation.CPFValidator;
 import com.pedidos.validation.CompradorValidator;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.BDDMockito;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -418,6 +419,118 @@ class CompradorServiceImplTest {
             verify(compradorValidator, times(3)).validateAllDataRegistration(any(Comprador.class));
             verify(compradorRepository, times(3)).findByCpf(anyString());
             verify(compradorRepository, times(3)).save(any(Comprador.class));
+        }
+
+    }
+
+    @Nested
+    class listAllBuyers{
+
+        @Test
+        @DisplayName("If pagination parameters are passed, listing should occur without errors.")
+        void listBuyersUsingPagingParameters(){
+            //ARRANGE
+            var buyerList = CompradorFactory.buyerListWithCompleteData();
+            Pageable pageable = PageRequest.of(0, 2, Sort.Direction.DESC,"nome");
+            Page<Comprador> buyerPage = new PageImpl<>(buyerList, pageable, buyerList.size());
+
+            //ACT
+            BDDMockito.given(compradorRepository.findAll(pageable)).willReturn(buyerPage);
+
+
+            // ASSERT
+            Assertions.assertDoesNotThrow( ()-> compradorService.listAllBuyers(pageable));
+        }
+
+        @Test
+        @DisplayName("If parameters for pagination are not being passed, the default configuration should be used and not present errors.")
+        void ListBuyersWithoutPassingPagingParameters(){
+            //ARRANGE
+            var buyerList = CompradorFactory.buyerListWithCompleteData();
+            Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC,"nome"); //caso não sejam passados param de paginação essa é a config padrão
+            Page<Comprador> buyerPage = new PageImpl<>(buyerList, pageable, buyerList.size());
+
+            //ACT
+            BDDMockito.given(compradorRepository.findAll(pageable)).willReturn(buyerPage);
+
+            // ASSERT
+            Assertions.assertDoesNotThrow( ()-> compradorService.listAllBuyers(pageable));
+        }
+
+    }
+
+    @Nested
+    class listBuyerByCPF{
+
+        @Test
+        @DisplayName("If the search by CPF returns a buyer, the request will be successful.")
+        void buyerFound(){
+            //ARRANGE
+            var buyer = CompradorFactory.buyerWithCompleteData();
+
+            //ACT
+            BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
+
+            //ASSERT
+            Assertions.assertDoesNotThrow(()-> compradorService.listBuyerByCPF(buyer));
+
+            verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
+        }
+
+        @Test
+        @DisplayName("If the search by CPF does not return anything, an error should be reported.")
+        void buyerNotFound(){
+            //ARRANGE
+            var buyer = CompradorFactory.buyerWithCompleteData();
+
+            //ACT
+            BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.empty());
+
+            //ASSERT
+            ResponseStatusException exception = Assertions.assertThrows( ResponseStatusException.class,
+                    ()-> compradorService.listBuyerByCPF(buyer)
+            );
+
+            Assertions.assertEquals("Não foi possível encontrar dados de cadastro para o CPF digitado!", exception.getReason());
+            verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
+        }
+
+    }
+
+    @Nested
+    class deleteBuyerRegistrationByCPF{
+
+        @Test
+        @DisplayName("If the buyer is found, the registration should be successfully deleted.")
+        void buyerFound(){
+            //ARRANGE
+            var buyer = CompradorFactory.buyerWithCompleteData();
+
+            //ACT
+            BDDMockito.given(compradorRepository.deleteByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
+
+            //ASSERT
+            Assertions.assertDoesNotThrow(()-> compradorService.deleteBuyerRegistrationByCPF(buyer));
+
+            verify(compradorRepository, times(1)).deleteByCpf(buyer.getCpf());
+        }
+
+        @Test
+        @DisplayName("If the buyer is not found, an error should be issued.")
+        void buyerNotFound(){
+            //ARRANGE
+            var buyer = CompradorFactory.buyerWithCompleteData();
+
+            //ACT
+            BDDMockito.given(compradorRepository.deleteByCpf(buyer.getCpf())).willReturn(Optional.empty());
+
+            //ASSERT
+            ResponseStatusException exception = Assertions.assertThrows( ResponseStatusException.class,
+                    ()-> compradorService.deleteBuyerRegistrationByCPF(buyer)
+            );
+
+            Assertions.assertEquals("Não foi possível encontrar dados de cadastro para o CPF digitado!", exception.getReason());
+            verify(compradorRepository, times(1)).deleteByCpf(buyer.getCpf());
         }
 
     }
