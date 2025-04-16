@@ -1,5 +1,6 @@
 package com.pedidos.domain;
 
+import com.pedidos.dto.EditableBuyerDataDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,4 +41,15 @@ public class Endereco {
                 ));
         this.uf = uf;
     }
+
+    public Endereco(EditableBuyerDataDTO editableBuyerDataDTO){
+        this.cep = editableBuyerDataDTO.getEndereco().getCep();
+        this.logradouro = editableBuyerDataDTO.getEndereco().getLogradouro();
+        this.bairro = editableBuyerDataDTO.getEndereco().getBairro();
+        this.numero = editableBuyerDataDTO.getEndereco().getNumero();
+        this.complemento = editableBuyerDataDTO.getEndereco().getComplemento();
+        this.cidade = new Cidade(editableBuyerDataDTO);
+        this.uf = editableBuyerDataDTO.getEndereco().getUf();
+    }
+
 }

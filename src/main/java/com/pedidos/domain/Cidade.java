@@ -1,5 +1,7 @@
 package com.pedidos.domain;
 
+import com.pedidos.dto.BuyerAddressDataDTO;
+import com.pedidos.dto.EditableBuyerDataDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,16 @@ public class Cidade {
     public Cidade(String nome, Estado estado) {
         this.nome = nome;
         this.estado = estado;
+    }
+
+    public Cidade(BuyerAddressDataDTO buyerAddressDataDTO){
+        this.nome = buyerAddressDataDTO.getCidade();
+        this.estado = new Estado(buyerAddressDataDTO);
+    }
+
+    public Cidade(EditableBuyerDataDTO editableBuyerDataDTO){
+        this.nome = editableBuyerDataDTO.getEndereco().getCidade();
+        this.estado = new Estado(editableBuyerDataDTO.getEndereco().getEstado());
     }
 
 }
