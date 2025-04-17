@@ -2,6 +2,7 @@ package com.pedidos.validation;
 
 import com.pedidos.factory.CompradorFactory;
 import com.pedidos.factory.EditableBuyerDataDTOFactory;
+import com.pedidos.util.ToEnderecoFormatterUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -176,6 +177,28 @@ class CompradorValidatorTest {
 
             //ACT + ASSERT
             Assertions.assertDoesNotThrow(()-> compradorValidator.editBuyerRegistration(buyerDataEditableDTO));
+        }
+
+        @Test
+        @DisplayName("Should return error when receiving any empty or null address data")
+        void someEmptyAddressEditData(){
+            //ARRANGE
+            var buyerDataEditableDTO = EditableBuyerDataDTOFactory.insertAddressData(
+                    "01234567",
+                    "Rua 10",
+                    "Racionais",
+                    "",
+                    "Fundão",
+                    "SP"
+            );
+
+            //ACT + ASSERT
+            ResponseStatusException exception = Assertions.assertThrows(
+                    ResponseStatusException.class, ()-> compradorValidator.editBuyerRegistration(buyerDataEditableDTO)
+            );
+
+            //caso algum campo do endereço retorne vazio ou nulo, deve acusar erro, nesse caso, o número está vazio e deve ser reportado
+            Assertions.assertEquals("O campo NÚMERO é obrigatório e não pode estar vazio!", exception.getReason());
         }
 
     }
