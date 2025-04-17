@@ -2,7 +2,7 @@ package com.pedidos.controller;
 
 import com.pedidos.domain.Comprador;
 import com.pedidos.dto.BuyerDataDTO;
-import com.pedidos.dto.EditableBuyerDataDTO;
+import com.pedidos.dto.BuyerEditableDataDTO;
 import com.pedidos.service.CompradorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +63,7 @@ public class CompradorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Void> editBuyerRegistration(@RequestBody EditableBuyerDataDTO buyerDataEditableDTO){
+    public ResponseEntity<Void> editBuyerRegistration(@RequestBody BuyerEditableDataDTO buyerDataEditableDTO){
         service.editBuyerRegistration(buyerDataEditableDTO);
 
         return ResponseEntity.noContent().build();

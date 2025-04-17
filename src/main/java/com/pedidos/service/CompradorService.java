@@ -2,7 +2,7 @@ package com.pedidos.service;
 
 import com.pedidos.domain.Comprador;
 import com.pedidos.dto.BuyerDataDTO;
-import com.pedidos.dto.EditableBuyerDataDTO;
+import com.pedidos.dto.BuyerEditableDataDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,6 +22,6 @@ public interface CompradorService {
 
     void deleteBuyerRegistrationByCPF(Comprador comprador);
 
-    void editBuyerRegistration (EditableBuyerDataDTO editableBuyerDataDTO);
+    void editBuyerRegistration (BuyerEditableDataDTO buyerEditableDataDTO);
 
 }
