@@ -94,10 +94,17 @@ public class CompradorServiceImpl implements CompradorService {
     @Override
     public void deleteBuyerRegistrationByCPF(Comprador comprador) {
 
-        buyerRepository.deleteByCpf(comprador.getCpf()).orElseThrow( () ->
+        /*caso o comprador não seja encontrado, esse throw emitira o erro e
+            ele será mostrado na mensagem da requisição, com o metodo delete não sendo acionado;
+            dessa forma, o delete retornará a mensagem de erro caso aconteça, mesmo sendo ele sendo
+            um void;
+        */
+        var buyer = buyerRepository.findByCpf(comprador.getCpf()).orElseThrow( () ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Não foi possível encontrar dados de cadastro para o CPF digitado!")
         );
+
+        buyerRepository.deleteByCpf(buyer.getCpf());
 
     }
 
