@@ -549,11 +549,12 @@ class CompradorServiceImplTest {
             var buyer = CompradorFactory.buyerWithCompleteData();
 
             //ACT
-            BDDMockito.given(compradorRepository.deleteByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
+            BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.of(buyer));
 
             //ASSERT
             Assertions.assertDoesNotThrow(()-> compradorService.deleteBuyerRegistrationByCPF(buyer));
 
+            verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
             verify(compradorRepository, times(1)).deleteByCpf(buyer.getCpf());
         }
 
@@ -564,7 +565,7 @@ class CompradorServiceImplTest {
             var buyer = CompradorFactory.buyerWithCompleteData();
 
             //ACT
-            BDDMockito.given(compradorRepository.deleteByCpf(buyer.getCpf())).willReturn(Optional.empty());
+            BDDMockito.given(compradorRepository.findByCpf(buyer.getCpf())).willReturn(Optional.empty());
 
             //ASSERT
             ResponseStatusException exception = Assertions.assertThrows( ResponseStatusException.class,
@@ -572,7 +573,8 @@ class CompradorServiceImplTest {
             );
 
             Assertions.assertEquals("Não foi possível encontrar dados de cadastro para o CPF digitado!", exception.getReason());
-            verify(compradorRepository, times(1)).deleteByCpf(buyer.getCpf());
+            verify(compradorRepository, times(1)).findByCpf(buyer.getCpf());
+            verify(compradorRepository, never()).deleteByCpf(buyer.getCpf());
         }
 
     }
