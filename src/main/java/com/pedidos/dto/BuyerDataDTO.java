@@ -1,7 +1,8 @@
 package com.pedidos.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pedidos.domain.Comprador;
+import com.pedidos.util.DateFormatterUtil;
+import com.pedidos.util.MaskFieldFormatterUtil;
 import com.pedidos.util.TextFormatterUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,6 @@ public class BuyerDataDTO {
     private Integer id;
     private String nome;
     private String sobrenome;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
     private String cpf;
 
@@ -29,8 +28,14 @@ public class BuyerDataDTO {
         this.nome = TextFormatterUtil.captalizeFirstLetter(comprador.getNome());
         this.sobrenome = TextFormatterUtil.captalizeFirstLetter(comprador.getSobrenome());
         this.dataNascimento = comprador.getDataNascimento();
-        this.cpf = comprador.getCpf();
+        this.cpf = MaskFieldFormatterUtil.cpfMask(comprador.getCpf());
         this.endereco = new BuyerAddressDataDTO(comprador.getEndereco());
+    }
+
+    //irá usar a classe util para formatar a data em DD/MM/YYYY ao retornar os dados;
+    //mesmo sendo um tipo LocalDate, o retorno vai como "string", por isso o getter retornando a data formatada;
+    public String getDataNascimento() {
+        return DateFormatterUtil.formatDataDDMMYYYY(dataNascimento);
     }
 
 }
