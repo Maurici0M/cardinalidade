@@ -32,10 +32,4 @@ public class BuyerDataDTO {
         this.endereco = new BuyerAddressDataDTO(comprador.getEndereco());
     }
 
-    //irá usar a classe util para formatar a data em DD/MM/YYYY ao retornar os dados;
-    //mesmo sendo um tipo LocalDate, o retorno vai como "string", por isso o getter retornando a data formatada;
-    public String getDataNascimento() {
-        return DateFormatterUtil.formatDataDDMMYYYY(dataNascimento);
-    }
-
 }
