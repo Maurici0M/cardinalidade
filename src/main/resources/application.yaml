@@ -1,17 +1,11 @@
 spring:
   jpa:
     show-sql: true
-
     database-platform: org.hibernate.dialect.H2Dialect
-    #database-platform: org.hibernate.dialect.MySQL5Dialect
-    #properties:
+      #database-platform: org.hibernate.dialect.MySQL5Dialect
+      #properties:
       #hibernate:
-        #dialect: org.hibernate.dialect.MySQL5Dialect
-
-    properties:
-      hibernate:
-        format_sql: true
-        #formata as consultas sql no terminal de maneira mais legível
+    #dialect: org.hibernate.dialect.MySQL5Dialect
 
   datasource:
     url: jdbc:h2:mem:pedidos
@@ -23,14 +17,4 @@ spring:
 
   h2:
     console:
-      enabled: false
-
-
-
-# Permitindo mensagem de erro ao utilizar a api via Railway:
-server:
-  port: ${PORT:8080}
-  error:
-    include-message: always
-    include-binding-errors: always
-
+      enabled: true
