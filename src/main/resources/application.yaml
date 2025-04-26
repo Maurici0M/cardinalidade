@@ -29,6 +29,7 @@ spring:
 
 # Permitindo mensagem de erro ao utilizar a api via Railway:
 server:
+  port: ${PORT:8080}
   error:
     include-message: always
     include-binding-errors: always
