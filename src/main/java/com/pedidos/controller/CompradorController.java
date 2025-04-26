@@ -31,7 +31,7 @@ public class CompradorController {
         return ResponseEntity.ok(buyer);
     }
 
-    @PostMapping("/test")
+    @PostMapping("/array")
     @Transactional
     public ResponseEntity<List<BuyerDataDTO>> registerBuyerListForTest(@RequestBody List<Comprador> listaCompradores){
         var buyerList = service.registerBuyerListForTest(listaCompradores);
